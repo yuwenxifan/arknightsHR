@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div id="main" v-loading="loading">
+    <div id="main" class="hidden">
         <header></header>
         <section class="main-body">
             <div class="tag-box">
@@ -67,6 +67,9 @@
                 },
                 mounted() {
                     this.loadData();
+                    $(document).ready(() => {
+                        $('#main').removeClass('hidden');
+                    });
                 },
                 methods: {
                     loadData() {
