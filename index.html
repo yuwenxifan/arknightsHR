@@ -34,7 +34,7 @@
                     </div>
                     <div class="staff-box">
                         <div v-for="staff in group.staff" class="staff">
-                            <img src="img/default.jpg" :alt="staff.name" class="avatar" :class="staff.star == 4 ? 'four' : 'five'">
+                            <img :src="staff.img" :alt="staff.name" class="avatar" :class="staff.star == 4 ? 'four' : 'five'">
                             <span class="name">{{staff.name}}</span>
                             <div class="tags">
                                 <span class="staff-tag" :class="group.tags.indexOf(tag) >= 0 ? 'active' : ''" v-for="tag in staff.tags">{{tag}}</span>
