@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ch">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./ele/index.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="icon" href="./favicon-192x192.png" type="image/png">
+    <title>桃花村驻罗德岛大使馆</title>
+</head>
+
+<body>
+    <div id="main" class="hidden">
+        <header></header>
+        <section class="main-body">
+            <div class="tag-box">
+                <div class="tag-group" v-for="group in tagGroup">
+                    <span class="group-name">{{group.group}}</span>
+                    <span class="tag"  v-for="tag in group.tags" :class="tags.indexOf(tag) > -1 ? 'active' : ''" @click="check(tag)">{{tag}}</span>
+                </div>
+                <div class="tag-group">
+                    <span class="group-name" style="background: #f56c6c" @click="refresh"><i class="el-icon-refresh"></i></span>
+                    <span class="tag checked" v-for="tag in tags">{{tag}}</span>
+                </div>
+            </div>
+        </section>
+        <footer></footer>
+    </div>
+    <script src="./js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="./js/vue.min.js"></script>
+    <script src="./ele/index.js"></script>
+    <!-- <script src="./data/data.json" type="text/json"></script> -->
+    <script>
+        $(function() {
+            var app = new Vue({
+                el: '#main',
+                data: {
+                    tagGroup: [],
+                    tags: []
+                },
+                mounted() {
+                    $(document).ready(() => {
+                        $(main).removeClass('hidden');
+                    });
+                    this.loadData();
+                },
+                methods: {
+                    loadData() {
+                        let that = this;
+                        $.ajax({
+                            url: 'data/data.json',
+                            success: data => {
+                                that.tagGroup = data.tag;
+                            },
+                            error: err => {
+                                that.$message.error('加载data.json失败');
+                            }
+                        });
+                    },
+                    check(tag) {
+                        let index = this.tags.indexOf(tag);
+                        if (index < 0) {
+                            if (this.tags.length < 5) {
+                                this.tags.push(tag);
+                            }
+                        } else {
+                            this.tags.splice(index, 1);
+                        }
+                    },
+                    refresh() {
+                        this.tags = [];
+                    }
+                },
+                watch: {
+                    //
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>
