@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div id="main" class="hidden">
+    <div id="main" v-loading="loading">
         <header></header>
         <section class="main-body">
             <div class="tag-box">
@@ -30,7 +30,7 @@
                     <div class="tag-label">
                         <span>选择标签：</span>
                         <span class="label-tag" v-for="tag in group.tags">{{tag}}</span>
-                        <span style="margin-left: 8px;">保底星级：{{group.star}}</span>
+                        <span style="display: inline-block;">保底星级：{{group.star}}</span>
                     </div>
                     <div class="staff-box">
                         <div v-for="staff in group.staff" class="staff">
@@ -42,6 +42,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="notice" v-show="tags.length > 0 && filterStaff.length == 0">
+                <div>全是垃圾tag呢</div>
+                <img src="./img/notice.jpg" alt="">
             </div>
         </section>
         <footer></footer>
@@ -55,15 +59,13 @@
             var app = new Vue({
                 el: '#main',
                 data: {
+                    loading: true,
                     tagGroup: [],
                     tags: [],
                     staff: [],
                     filterStaff: []
                 },
                 mounted() {
-                    $(document).ready(() => {
-                        $(main).removeClass('hidden');
-                    });
                     this.loadData();
                 },
                 methods: {
@@ -74,6 +76,7 @@
                             success: data => {
                                 that.tagGroup = data.tag;
                                 that.staff = data.staff;
+                                that.loading = false;
                             },
                             error: err => {
                                 that.$message.error('加载data.json失败');

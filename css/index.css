@@ -34,7 +34,6 @@ html, body {
     margin: 0 auto;
     max-width: 1200px;
     width: 100%;
-    height: 1200px;
     background: #fff;
     padding: 20px;
     box-sizing: border-box;
@@ -157,6 +156,12 @@ html, body {
     background: #c6e2ff;
 }
 
+.notice {
+    font-size: 16px;
+    padding-top: 15px;
+    padding-left: 85px;
+}
+
 @media screen and (max-width: 600px) {
     html, body {
         font-size: 12px;
@@ -172,12 +177,26 @@ html, body {
         padding: 4px 8px;
         margin: 1px 6px 10px 0px;
     }
+    .tag-label {
+        font-size: 13px;
+    }
+    .label-tag {
+        font-size: 11px;
+    }
     .staff {
         width: 100%;
         padding: 10px 10px 10px 80px;
+        min-height: 100px;
     }
     .avatar {
         width: 60px;
         height: 60px;
+    }
+    .name {
+        top: 80px;
+        width: 60px;
+    }
+    .notice {
+        padding-left: 65px;
     }
 }
