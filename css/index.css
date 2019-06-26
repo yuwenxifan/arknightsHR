@@ -1,8 +1,31 @@
 html, body {
     margin: 0;
     padding: 0;
-    /* font-size: 14px; */
+    font-size: 14px;
+    color: #303133;
 }
+
+/*默认滚动条样式*/
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #F5F5F5;
+}
+::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    min-height: 30px;
+    border-radius: 6px;
+    margin: 5px;
+    background-color: #e0e0e0;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #cfcfcf;
+}
+
 .hidden {
     display: none;
 }
@@ -14,20 +37,22 @@ html, body {
     height: 1200px;
     background: #fff;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .tag-group {
     position: relative;
-    min-height: 46px;
-    padding-left: 95px;
-    margin: 5px 0;
+    min-height: 43px;
+    padding-left: 85px;
+    margin: 4px 0;
+    user-select: none;
 }
 
 .group-name {
     position: absolute;
     left: 0px;
-    width: 80px;
-    padding: 10px 0;
+    width: 70px;
+    padding: 8px 0;
     text-align: center;
     background: #909399;
     color: #fff;
@@ -36,7 +61,7 @@ html, body {
 
 .tag {
     display: inline-block;
-    padding: 6px 15px;
+    padding: 5px 14px;
     margin: 2px 10px 10px 0px;
     border: 1px #cdd0d6 solid;
     border-radius: 3px;
@@ -56,4 +81,103 @@ html, body {
 .tag.checked {
     background: #dee0e2;
     cursor: auto;
+}
+
+.staff-group {
+    width: 100%;
+    border: 1px #E4E7ED solid;
+    margin: 10px 0;
+}
+
+.tag-label {
+    width: 100%;
+    box-sizing: border-box;
+    background: #f5f7fa;
+    border-bottom: 1px #E4E7ED solid;
+    padding: 8px 15px;
+    font-size: 15px;
+    color: #000;
+}
+
+.label-tag {
+    display: inline-block;
+    padding: 2px 17px;
+    border: #909399 1px solid;
+    border-radius: 17px;
+    font-size: 13px;
+    margin-right: 7px;
+}
+
+.staff-box {
+    padding: 0 15px;
+}
+
+.staff {
+    position: relative;
+    vertical-align:top;
+    display: inline-block;
+    min-width: 233px;
+    min-height: 120px;
+    width: 33.33%;
+    padding: 10px 10px 10px 100px;
+    box-sizing: border-box;
+}
+
+.avatar {
+    position: absolute;
+    left: 0;
+    width: 80px;
+    height: 80px;
+}
+
+.avatar.four {
+    border: 3px solid #8960ce;
+}
+
+.avatar.five {
+    border: 3px solid #f0a94d;
+}
+
+.name {
+    position: absolute;
+    left: 0;
+    top: 100px;
+    width: 80px;
+    text-align: center;
+}
+
+.staff-tag {
+    display: inline-block;
+    border: #909399 1px solid;
+    padding: 2px 12px;
+    margin: 0 5px 5px 0;
+}
+
+.staff-tag.active {
+    background: #c6e2ff;
+}
+
+@media screen and (max-width: 600px) {
+    html, body {
+        font-size: 12px;
+    }
+    .tag-group {
+        padding-left: 65px;
+    }
+    .group-name {
+        width: 50px;
+        padding: 6px 0;
+    }
+    .tag {
+        padding: 4px 8px;
+        margin: 1px 6px 10px 0px;
+    }
+    .staff {
+        width: 100%;
+        padding: 10px 10px 10px 80px;
+    }
+    .avatar {
+        width: 60px;
+        height: 60px;
+    }
 }

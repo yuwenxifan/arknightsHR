@@ -25,6 +25,24 @@
                     <span class="tag checked" v-for="tag in tags">{{tag}}</span>
                 </div>
             </div>
+            <div>
+                <div class="staff-group" v-for="group in filterStaff">
+                    <div class="tag-label">
+                        <span>选择标签：</span>
+                        <span class="label-tag" v-for="tag in group.tags">{{tag}}</span>
+                        <span style="margin-left: 8px;">保底星级：{{group.star}}</span>
+                    </div>
+                    <div class="staff-box">
+                        <div v-for="staff in group.staff" class="staff">
+                            <img src="img/default.jpg" :alt="staff.name" class="avatar" :class="staff.star == 4 ? 'four' : 'five'">
+                            <span class="name">{{staff.name}}</span>
+                            <div class="tags">
+                                <span class="staff-tag" :class="group.tags.indexOf(tag) >= 0 ? 'active' : ''" v-for="tag in staff.tags">{{tag}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <footer></footer>
     </div>
@@ -38,7 +56,9 @@
                 el: '#main',
                 data: {
                     tagGroup: [],
-                    tags: []
+                    tags: [],
+                    staff: [],
+                    filterStaff: []
                 },
                 mounted() {
                     $(document).ready(() => {
@@ -53,6 +73,7 @@
                             url: 'data/data.json',
                             success: data => {
                                 that.tagGroup = data.tag;
+                                that.staff = data.staff;
                             },
                             error: err => {
                                 that.$message.error('加载data.json失败');
@@ -64,9 +85,66 @@
                         if (index < 0) {
                             if (this.tags.length < 5) {
                                 this.tags.push(tag);
+                                this.findStaff();
                             }
                         } else {
                             this.tags.splice(index, 1);
+                            this.findStaff();
+                        }
+                    },
+                    findStaff() {
+                        this.filterStaff = [];
+                        let tagCom = this.combination(this.tags);
+                        for (let itemTagCom of tagCom) {
+                            let filterStaff = this.staff.filter(item => {
+                                let result = 0;
+                                for (let tag of itemTagCom) {
+                                    if (item.tags.indexOf(tag) < 0) {
+                                        result ++;
+                                    }
+                                }
+                                return result == 0;
+                            });
+                            if (filterStaff.length > 0 && filterStaff[0].star > 3) {
+                                this.filterStaff.push({
+                                    tags: itemTagCom,
+                                    star: filterStaff[0].star,
+                                    staff: filterStaff
+                                });
+                            }
+                        }
+                        this.filterStaff.sort((a, b) => {
+                            return b.star - a.star
+                        });
+                        console.log(this.filterStaff)
+                    },
+                    combination(tags) {
+                        let max = tags.length > 3 ? 3 : tags.length;
+                        let arr = [];
+                        for (let i = 1; i <= max; i++) {
+                            let result = this.listAll(tags, i)
+                            arr = arr.concat(result);
+                        }
+                        return arr;
+                    },
+                    listAll(data, num) {
+                        let tempData = data.slice();
+                        if (num == 1) {
+                            let result = data.map(item => {
+                                return [item];
+                            });
+                            return result;
+                        } else {
+                            let result = data.map((item, index) => {
+                                tempData = tempData.splice(1);
+                                let arr = this.listAll(tempData, num - 1);
+                                arr.map(i => {
+                                    return i.unshift(item);
+                                });
+                                return arr;
+                            });
+                            result = result.flat();
+                            return result;
                         }
                     },
                     refresh() {
