@@ -34,7 +34,7 @@
                         <span style="display: inline-block;">{{group.names}}</span>
                         <span v-if="group.tagsGroup.length > 1" class="show-more" :index="i">查看更多</span>
                         <div class="popover" v-show="group.show" :index="i">
-                            以下tag组合均可超募出一样的干员，任选一组即可
+                            以下tag组合均可招募出一样的干员，任选一组即可
                             <div v-for="tags in group.tagsGroup" class="tag-line">
                                 <span v-for="t in tags" class="label-tag">{{t}}</span>
                             </div>
