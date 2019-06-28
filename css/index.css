@@ -98,9 +98,59 @@ html, body {
     color: #000;
 }
 
+.tag-label.more {
+    position: relative;
+    padding-right: 76px;
+}
+
+.popover {
+    color: #303133;
+    position: absolute;
+    right: 10px;
+    transform: translateY(8px);
+    z-index: 100;
+    padding: 18px 20px;
+    background: #fff;
+    max-width: 280px;
+    border-radius: 5px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .15);
+}
+.arrow::before {
+    content: "";
+    position: absolute;
+    bottom: 0px;
+    right: 35px;
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-top-width: 0;
+    border-color: transparent;
+    border-bottom-color: #e4e7ed;
+    border-style: solid;
+    z-index: 200;
+}
+.arrow::after {
+    content: "";
+    position: absolute;
+    bottom: -1.4px;
+    right: 35px;
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-top-width: 0;
+    border-color: transparent;
+    border-bottom-color: #fff;
+    border-style: solid;
+    z-index: 201;
+}
+
+.tag-line {
+    padding-top: 12px;
+}
+
 .label-tag {
     display: inline-block;
-    padding: 2px 17px;
+    padding: 2px 14px;
     border: #909399 1px solid;
     border-radius: 17px;
     font-size: 13px;
@@ -160,6 +210,16 @@ html, body {
     font-size: 16px;
     padding-top: 15px;
     padding-left: 85px;
+}
+
+.show-more {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    color: #409eff;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
 }
 
 @media screen and (max-width: 600px) {

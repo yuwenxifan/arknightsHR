@@ -26,11 +26,20 @@
                 </div>
             </div>
             <div>
-                <div class="staff-group" v-for="group in filterStaff">
-                    <div class="tag-label">
+                <div class="staff-group" v-for="(group, i) in filterStaff">
+                    <div class="tag-label" :class="group.tagsGroup.length > 1 ? 'more' : ''">
                         <span>选择标签：</span>
                         <span class="label-tag" v-for="tag in group.tags">{{tag}}</span>
                         <span style="display: inline-block;">保底星级：{{group.star}}</span>
+                        <span style="display: inline-block;">{{group.names}}</span>
+                        <span v-if="group.tagsGroup.length > 1" class="show-more" :index="i">查看更多</span>
+                        <div class="popover" v-show="group.show" :index="i">
+                            以下tag组合均可超募出一样的干员，任选一组即可
+                            <div v-for="tags in group.tagsGroup" class="tag-line">
+                                <span v-for="t in tags" class="label-tag">{{t}}</span>
+                            </div>
+                        </div>
+                        <div class="arrow" v-show="group.show"></div>
                     </div>
                     <div class="staff-box">
                         <div v-for="staff in group.staff" class="staff">
@@ -66,16 +75,32 @@
                     filterStaff: []
                 },
                 mounted() {
+                    let that = this;
                     this.loadData();
                     $(document).ready(() => {
                         $('#main').removeClass('hidden');
+                    });
+                    $(document).bind('click', function (e) {
+                        if ($(e.target).closest('.show-more').length == 0 && $(e.target).closest('.popover').length == 0) {
+                            that.filterStaff = that.filterStaff.map(staff => {
+                                staff.show = false;
+                                return staff;
+                            });
+                        } else if ($(e.target).closest('.show-more').length > 0) {
+                            let index = $(e.target).closest('.show-more').attr('index') || $(e.target).closest('.popover').attr('index') || 0;
+                            that.filterStaff = that.filterStaff.map((staff, i) => {
+                                let show = $(e.target).closest('.show-more').length > 0 ? !staff.show : true;
+                                staff.show = index == i ? show : false;
+                                return staff;
+                            });
+                        }
                     });
                 },
                 methods: {
                     loadData() {
                         let that = this;
                         $.ajax({
-                            url: 'data/data.json',
+                            url: 'data/data.min.json',
                             success: data => {
                                 that.tagGroup = data.tag;
                                 that.staff = data.staff;
@@ -100,6 +125,8 @@
                     },
                     findStaff() {
                         this.filterStaff = [];
+                        let tempfilterStaff = [];
+                        let tempName = [];
                         let tagCom = this.combination(this.tags);
                         for (let itemTagCom of tagCom) {
                             let filterStaff = this.staff.filter(item => {
@@ -111,17 +138,29 @@
                                 }
                                 return result == 0;
                             });
+                            let staffs = filterStaff.map(staff => {
+                                return staff.name;
+                            }).join(',');
                             if (filterStaff.length > 0 && filterStaff[0].star > 3) {
-                                this.filterStaff.push({
-                                    tags: itemTagCom,
-                                    star: filterStaff[0].star,
-                                    staff: filterStaff
-                                });
+                                let index = tempName.indexOf(staffs);
+                                if (index < 0) {
+                                    tempName.push(staffs);
+                                    tempfilterStaff.push({
+                                        tags: itemTagCom,
+                                        tagsGroup: [itemTagCom],
+                                        star: filterStaff[0].star,
+                                        staff: filterStaff,
+                                        show: false,
+                                    });
+                                } else {
+                                    tempfilterStaff[index].tagsGroup.push(itemTagCom);
+                                }
                             }
                         }
-                        this.filterStaff.sort((a, b) => {
+                        tempfilterStaff.sort((a, b) => {
                             return b.star - a.star
                         });
+                        this.filterStaff = tempfilterStaff;
                         console.log(this.filterStaff)
                     },
                     combination(tags) {
