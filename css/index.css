@@ -187,6 +187,10 @@ html, body {
     border: 3px solid #f0a94d;
 }
 
+.avatar.six {
+    border: 3px solid #f0e028;
+}
+
 .name {
     position: absolute;
     left: 0;
