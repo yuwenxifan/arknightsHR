@@ -177,6 +177,7 @@ html, body {
     left: 0;
     width: 80px;
     height: 80px;
+    background: linear-gradient(#8a8a8a, #bbbbbb);
 }
 
 .avatar.four {
