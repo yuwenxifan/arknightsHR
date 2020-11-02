@@ -100,7 +100,7 @@
                     loadData() {
                         let that = this;
                         $.ajax({
-                            url: 'data/data.min.json',
+                            url: 'data/data.json?v=1',
                             success: data => {
                                 that.tagGroup = data.tag;
                                 that.staff = data.staff;
